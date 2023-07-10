@@ -1,0 +1,118 @@
+* {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+img, video {
+  max-height: 300px;
+  width: 100%;
+
+  object-fit: contain;
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh !important;
+}
+body.swal2-height-auto {
+  height: 100vh !important
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: black;
+}
+
+.chatbox {
+  width: 400px;
+  height: 600px;
+  box-shadow: 0 0 5px #000;
+  border-radius: 20px;
+  display: grid;
+  grid-template-rows: 9fr 1fr;
+  overflow: hidden;
+  #chat {
+    background: #bbb;
+    overflow-y: scroll;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .mensaje {
+      background: #5c5c5c;
+      box-shadow: 0 0 5px #5c5c5c;
+      padding: 10px;
+      border-radius: 10px;
+      width: max-content;
+      font-size: 20px;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+
+      color: white;
+      &.mensajePropio {
+        background: #087886;
+        box-shadow: 0 0 5px #087886;
+        align-self: end;
+      }
+    }
+  }
+  .chatMessage {
+    display: grid;
+    grid-template-columns: 1.5fr 8fr 1.5fr;
+    #chatInput {
+      border: none;
+      outline: none;
+      padding-left: 5px;
+      font-size: 20px;
+      &:hover {
+        background: rgb(216, 216, 216);
+      }
+    }
+    #chatSend {
+      border: none;
+      outline: none;
+      border-left: 2px solid black;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        background: rgb(31, 191, 219);
+      }
+      img {
+        height: 32px;
+      }
+    }
+    #img {
+      position: relative;
+      // visibility: 0;
+      background: red;
+      border-right: 2px solid black;
+      &::before {
+        content: "";
+        z-index: 1;
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230964B0'%3E%3Cpath d='M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5-5 5z'/%3E%3C/svg%3E");
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
+
+@media (max-width:500px) {
+  .chatbox{
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
