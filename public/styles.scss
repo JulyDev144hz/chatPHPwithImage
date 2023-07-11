@@ -61,6 +61,43 @@ body.swal2-height-auto {
     }
   }
   .chatMessage {
+    position: relative;
+    .Alert{
+      position: absolute;
+      height: 100%;
+      bottom: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.315);
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+      gap: 20px;
+      img, video{
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+      }
+      &.hidden{
+        display: none;
+      }
+      #buttonCancelImg{
+        position: absolute;
+        bottom: 10px;
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        border: none;
+        outline: none;
+        font-size: 20px;
+        background:rgba(255, 0, 0, 0.322);
+        &:hover{
+        background:rgba(255, 0, 0, 0.5);
+
+        }
+        padding: 5px;
+      }
+    }
     display: grid;
     grid-template-columns: 1.5fr 8fr 1.5fr;
     #chatInput {

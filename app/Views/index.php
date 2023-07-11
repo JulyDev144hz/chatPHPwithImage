@@ -18,6 +18,7 @@
             <input type="file" id="img">
             <input type="text" id="chatInput">
             <button id="chatSend"><img src="<?= base_url('/public/paperAirplane.svg') ?>" alt=""></button>
+            <span class="Alert hidden" id="alertIMG"><img src="" alt="preview" id="imgPreview">Imagen seleccionada <button id="buttonCancelImg">X</button></span>
         </div>
     </div>
 
@@ -43,15 +44,36 @@
                 getName()
             })
         }
-        getName()
+        // getName()
 
         var conn = new WebSocket('ws://localhost:8080');
         let file = null
         let typeFile = null
+        let imgURL = null
+        $("#buttonCancelImg").on('click', e => {
+            file = null
+            typeFile = null
+            imgURL = null
+            $("#alertIMG").addClass('hidden')
+
+        })
+
         let imgInput = document.getElementById('img')
         imgInput.addEventListener('change', e => {
             f = e.target.files[0]
             typeFile = imgInput.value.split('.')[1]
+            imgURL = URL.createObjectURL(f)
+            if(typeFile == 'mp4'){
+
+                $("#imgPreview").replaceWith(`<video autoplay muted loop alt="preview" id="imgPreview">`)
+            }else{
+                $("#imgPreview").replaceWith(`<img alt="preview" id="imgPreview">`)
+
+            }
+            $("#imgPreview").attr('src', imgURL)
+            $("#alertIMG").removeClass('hidden')
+
+
             const reader = new FileReader();
             reader.addEventListener('load', e => {
                 file = reader.result
@@ -64,7 +86,7 @@
 
             // let shouldScroll = messages.scrollTop + messages.clientHeight === messages.scrollHeight;
             // if (!shouldScroll) {
-                messages.scrollTop = messages.scrollHeight;
+            messages.scrollTop = messages.scrollHeight;
             // }
         }
 
@@ -72,16 +94,16 @@
             if (file) {
                 conn.send(JSON.stringify(['newMessageWithImage', [username, file, typeFile, $("#chatInput").val()]]))
                 let img = imgInput.files[0]
-                let imgURL = URL.createObjectURL(img)
                 $("#chat").html(`${$("#chat").html()}<div class="mensaje mensajePropio">${$("#chatInput").val() ? $("#chatInput").val()+"<br>": ""}${typeFile == 'mp4' ? `<video autoplay controls muted><source src="${imgURL}" type="video/mp4"></video>` : `<img src="${imgURL}">`}</div>`)
                 scroll()
-
                 $("#chatInput").val("")
                 file = null
                 typeFile = null
+                imgURL = null
+                $("#alertIMG").addClass('hidden')
                 return
             }
-            if($("#chatInput").val().length < 1) return
+            if ($("#chatInput").val().length < 1) return
 
             conn.send(JSON.stringify(['newMessage', [username, $("#chatInput").val()]]))
 
@@ -97,19 +119,19 @@
         conn.onopen = function(e) {
             console.log("Connection established!");
         };
-        conn.onerror = e=>{
+        conn.onerror = e => {
             Swal.fire({
-                title:"Error",
-                text:"Hubo un error con la conexion!",
-                icon:"error"
-            }).then(e=>location.reload())
+                title: "Error",
+                text: "Hubo un error con la conexion!",
+                icon: "error"
+            }).then(e => location.reload())
         }
-        conn.onclose = e=>{
+        conn.onclose = e => {
             Swal.fire({
-                title:"Error",
-                text:"Se cerro la conexion!",
-                icon:"error"
-            }).then(e=>location.reload())
+                title: "Error",
+                text: "Se cerro la conexion!",
+                icon: "error"
+            }).then(e => location.reload())
         }
 
         conn.onmessage = function(e) {
@@ -122,7 +144,7 @@
             }
             if (e[0] == 'newMessageWithImage') {
                 let data = e[1]
-                
+
                 $("#chat").html(`${$("#chat").html()}<div class="mensaje"><b>${data[0]}:</b>${data[2]}<br>${data[1].endsWith('mp4') ? `<video autoplay controls muted><source src="${data[1]}" type="video/mp4"></video>` : `<img src="${data[1]}">`}<br></div>`)
                 scroll()
 
