@@ -44,9 +44,9 @@
                 getName()
             })
         }
-        // getName()
+        getName()
 
-        var conn = new WebSocket('ws://localhost:8080');
+        var conn = new WebSocket('ws://192.168.2.166:8080');
         let file = null
         let typeFile = null
         let imgURL = null
@@ -100,6 +100,7 @@
                 file = null
                 typeFile = null
                 imgURL = null
+                imgInput.value = []
                 $("#alertIMG").addClass('hidden')
                 return
             }
